@@ -333,6 +333,10 @@ def main():
                            help='Compressor program and arguments, '
                                 'e.g. `pigz -p 4`')
 
+  parser.add_argument('--compresslevel',
+                      help='Compression level, '
+                      'higher is more compressed but slower.')
+
   parser.add_argument(
       '--modes', action='append',
       help='Specific mode to apply to specific file (from the file argument),'
@@ -403,7 +407,7 @@ def main():
   with TarFile(
       options.output, helpers.GetFlagValue(options.directory),
       options.compression, options.compressor, options.root_directory,
-      default_mtime=default_mtime) as output:
+      default_mtime=default_mtime, compresslevel=options.compresslevel) as output:
 
     def file_attributes(filename):
       if filename.startswith('/'):

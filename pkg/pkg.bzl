@@ -110,6 +110,9 @@ def _pkg_tar_impl(ctx):
                 else:
                     fail("Unsupported compression: '%s'" % compression)
 
+        if ctx.attr.compresslevel:
+            args.append("--compresslevel=%d" % ctx.attr.compresslevel)
+
     if ctx.attr.mtime != _DEFAULT_MTIME:
         if ctx.attr.portable_mtime:
             fail("You may not set both mtime and portable_mtime")
@@ -418,6 +421,7 @@ pkg_tar_impl = rule(
         "remap_paths": attr.string_dict(),
         "compressor": attr.label(executable = True, cfg = "exec"),
         "compressor_args": attr.string(),
+        "compresslevel": attr.int(),
 
         # Common attributes
         "out": attr.output(mandatory = True),
